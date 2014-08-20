@@ -245,7 +245,7 @@ static int const kMGBadgeViewTag = 9876;
     }
 }
 
--(void)reAdjustBadgeViewPosition{
+-(void)updateBadgeViewPosition{
     CGRect badgeRect = self.frame;
     self.center = CGPointMake(badgeRect.size.width/2, badgeRect.size.height/2);
 }

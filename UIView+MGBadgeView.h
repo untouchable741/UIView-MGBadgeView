@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, MGBadgePosition) {
 
 @property (nonatomic) NSInteger maximumBadgeValueAllowed;
 
--(void)reAdjustBadgeViewPosition;
+-(void)updateBadgeViewPosition;
 
 @end
 
