@@ -38,6 +38,10 @@ typedef NS_ENUM(NSUInteger, MGBadgePosition) {
 
 @property (nonatomic) BOOL displayIfZero;
 
+@property (nonatomic) NSInteger maximumBadgeValueAllowed;
+
+-(void)reAdjustBadgeViewPosition;
+
 @end
 
 

@@ -34,6 +34,8 @@ static int const kMGBadgeViewTag = 9876;
         self.opaque = YES;
         self.tag = kMGBadgeViewTag;
         
+        //maximum badge value allowed , default is 99 , if badge value > 99 it will be display as 99+
+        self.maximumBadgeValueAllowed = 99;
     }
     
     return self;
@@ -43,7 +45,14 @@ static int const kMGBadgeViewTag = 9876;
     
     if(_badgeValue != 0 || _displayIfZero) {
         
-        NSString *stringToDraw = [NSString stringWithFormat:@"%ld", (long)_badgeValue];
+        NSString *stringToDraw;
+        
+        if(_badgeValue < self.maximumBadgeValueAllowed){
+            stringToDraw = [NSString stringWithFormat:@"%ld", (long)_badgeValue];
+        }
+        else{
+            stringToDraw = [NSString stringWithFormat:@"%ld+", (long)self.maximumBadgeValueAllowed];
+        }
         
         CGContextRef context = UIGraphicsGetCurrentContext();
         
@@ -179,7 +188,14 @@ static int const kMGBadgeViewTag = 9876;
 
 - (void)mg_updateBadgeViewSize {
     //Calculate badge bounds
-    CGSize numberSize = [[NSString stringWithFormat:@"%ld", (long)_badgeValue] sizeWithAttributes:@{NSFontAttributeName: _font}];
+    NSString* badgeViewString;
+    if(_badgeValue < self.maximumBadgeValueAllowed){
+        badgeViewString = [NSString stringWithFormat:@"%ld", (long)_badgeValue];
+    }
+    else {
+        badgeViewString = [NSString stringWithFormat:@"%ld+", self.maximumBadgeValueAllowed];
+    }
+    CGSize numberSize = [badgeViewString sizeWithAttributes:@{NSFontAttributeName: _font}];
     
     float badgeHeight = MAX(BADGE_TOTAL_OFFSET + numberSize.height, _minDiameter);
     float badgeWidth = MAX(badgeHeight, BADGE_TOTAL_OFFSET + numberSize.width);
@@ -227,6 +243,11 @@ static int const kMGBadgeViewTag = 9876;
         default:
             break;
     }
+}
+
+-(void)reAdjustBadgeViewPosition{
+    CGRect badgeRect = self.frame;
+    self.center = CGPointMake(badgeRect.size.width/2, badgeRect.size.height/2);
 }
 
 @end
